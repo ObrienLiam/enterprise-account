@@ -1,23 +1,18 @@
 package com.qa.service.repository;
 
-import javax.transaction.Transactional;
-
 import com.qa.domain.Account;
 import com.qa.util.JSONUtil;
 
-import static javax.transaction.Transactional.TxType.SUPPORTS;
-
 import java.util.Collection;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import static javax.transaction.Transactional.TxType.REQUIRED;
-
-@Transactional(SUPPORTS)
-public class AccountDBRepository {
+@Default
+public class AccountDBRepository implements AccountRespository{
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager manager;
@@ -32,15 +27,15 @@ public class AccountDBRepository {
 		return util.getJSONForObject(accounts);
 	}
 	
-	@Transactional(REQUIRED)
-	public String createAccount(String account)
+	
+	public String createAccount(String accountToAdd)
 	{
-		Account newAccount = util.getObjectForJSON(account, Account.class);
+		Account newAccount = util.getObjectForJSON(accountToAdd, Account.class);
 		manager.persist(newAccount);
 		return "{\"message\": \"account has been successfully added\"}";
 	}
 	
-	@Transactional(REQUIRED)
+
 	public String updateAccount(Long id, String accountToUpdate)
 	{
 		Account updatedAccount = util.getObjectForJSON(accountToUpdate, Account.class);
@@ -54,7 +49,7 @@ public class AccountDBRepository {
 		return "{\"message\": \"account has been successfully updated\"}";
 	}
 	
-	@Transactional(REQUIRED)
+
 	public String deleteAccount(Long id)
 	{
 		Account accountInDB = findAccount(id);
