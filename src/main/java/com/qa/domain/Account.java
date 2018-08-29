@@ -1,4 +1,4 @@
-package com.qa.model;
+package com.qa.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Accounts {
+public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +19,9 @@ public class Accounts {
 	@Column(name = "account_num")
 	private Long accountnum;
 	
-	public Accounts() {}
+	public Account() {}
 	
-	public Accounts(Long Id, String firstname, String lastname, Long accountnum)
+	public Account(Long Id, String firstname, String lastname, Long accountnum)
 	{
 		this.Id = Id;
 		this.firstname = firstname;
